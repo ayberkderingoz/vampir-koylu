@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -15,6 +16,11 @@ public class ButtonInteraction : MonoBehaviour
     [SerializeField] private TextMeshProUGUI KoyluCountText;
     [SerializeField] private TextMeshProUGUI DoktorCountText;
     [SerializeField] private TextMeshProUGUI GozcuCountText;
+    public static int BasvampirCount;
+    public static int VampirCount;
+    public static int KoyluCount;
+    public static int DoktorCount;
+    public static int GozcuCount;
     
 
     void Start()
@@ -119,5 +125,15 @@ public class ButtonInteraction : MonoBehaviour
                 textBox.text = (--count).ToString();
             }
         }
+    }
+    
+    public void StartButton()
+    {
+        BasvampirCount = BasvampirCountText.text == "sj" ? 31 : int.Parse((BasvampirCountText.text));
+        VampirCount = VampirCountText.text == "sj" ? 31 : int.Parse((VampirCountText.text));
+        KoyluCount = KoyluCountText.text == "sj" ? 31 : int.Parse((KoyluCountText.text));
+        DoktorCount = DoktorCountText.text == "sj" ? 31 : int.Parse((DoktorCountText.text));
+        GozcuCount = GozcuCountText.text == "sj" ? 31 : int.Parse((GozcuCountText.text));
+        SceneManager.LoadScene("NameScene");
     }
 }
