@@ -21,17 +21,24 @@ public class NameSceneController : MonoBehaviour
     }
     public void onPressSkipButton()
     {
-        if (textBox.text == "")
-            playerCount.text = $"Oyuncu ismi boþ býrakýlamaz. Lütfen {oyuncuList.Count + 1}. oyuncunun ismini giriniz.";
-        else if (oyuncuList.Contains(textBox.text))
-            playerCount.text = $"Ayný isimde birden fazla oyuncu olamaz. Lütfen {oyuncuList.Count + 1}. oyuncunun ismini giriniz.";
+        var username = textBox.text;
+        string playerCountText;
+
+        int playerIndex = oyuncuList.Count + 1;
+        
+        if (string.IsNullOrEmpty( username))
+            playerCountText = $"Oyuncu ismi boï¿½ bï¿½rakï¿½lamaz. Lï¿½tfen {playerIndex}. oyuncunun ismini giriniz.";
+        else if (oyuncuList.Contains(username))
+            playerCountText= $"Aynï¿½ isimde birden fazla oyuncu olamaz. Lï¿½tfen {playerIndex}. oyuncunun ismini giriniz.";
         else
         {
-            oyuncuList.Add(textBox.text);
-            playerCount.text = $"Lütfen {oyuncuList.Count + 1}. oyuncunun ismini giriniz.";
+            oyuncuList.Add(username);
+            playerCountText = $"Lï¿½tfen {playerIndex}. oyuncunun ismini giriniz.";
         }
+        
         textBox.text = "";
-
+        playerCount.text = playerCountText;
+        
         if (oyuncuList.Count == oyuncuCount)
             Debug.Log("Ab oyuncular biddi.");
 
