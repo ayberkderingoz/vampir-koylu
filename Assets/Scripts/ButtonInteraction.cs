@@ -16,22 +16,47 @@ public class ButtonInteraction : MonoBehaviour
     [SerializeField] private TextMeshProUGUI KoyluCountText;
     [SerializeField] private TextMeshProUGUI DoktorCountText;
     [SerializeField] private TextMeshProUGUI GozcuCountText;
+
     public static int BasvampirCount;
     public static int VampirCount;
     public static int KoyluCount;
     public static int DoktorCount;
     public static int GozcuCount;
-    
+    public static int totalOyuncuCount;
+
+    private Button basvampirButonArttir;
+    private Button vampirButonArttir;
+    private Button vampirButonAzalt;
+
 
     void Start()
     {
-        
+        // Getting the buttons.
+        basvampirButonArttir = GameObject.Find("ButtonBasvampirArtir").GetComponent<Button>();
+        vampirButonArttir = GameObject.Find("ButtonVampirArtir").GetComponent<Button>();
+        vampirButonAzalt = GameObject.Find("ButtonVampirAzalt").GetComponent<Button>();
+
+        // Setting buttons noniteractable so at the start of the game, those buttons become not clickable.
+        vampirButonArttir.interactable = false;
+        vampirButonAzalt.interactable = false;
     }
     public void onPressIncreaseButton()
     {
         if (EventSystem.current.currentSelectedGameObject.name == "ButtonBasvampirArtir")
         {
-            increaseCount(BasvampirCountText);
+            // Checking the basvampir count.
+            int BasvampirCountCheck = int.Parse(BasvampirCountText.text);
+            if (BasvampirCountCheck == 0)
+            {
+                increaseCount(BasvampirCountText);
+
+                // Setting buttons interactable because now basvampir count is 1.
+                vampirButonArttir.interactable = true;
+                vampirButonAzalt.interactable = true;
+
+                // Setting the button noninteractable because max count of the basvampir is 1.
+                basvampirButonArttir.interactable = false;
+            }
         }
         else if (EventSystem.current.currentSelectedGameObject.name == "ButtonVampirArtir")
         {
@@ -57,7 +82,22 @@ public class ButtonInteraction : MonoBehaviour
     {
         if (EventSystem.current.currentSelectedGameObject.name == "ButtonBasvampirAzalt")
         {
-            decreaseCount(BasvampirCountText);
+            // Checking the basvampir count.
+            int BasvampirCountCheck = int.Parse(BasvampirCountText.text);
+            if (BasvampirCountCheck == 1)
+            {
+                decreaseCount(BasvampirCountText);
+
+                // Setting buttons noninteractable because now basvampir count is 0.
+                vampirButonArttir.interactable = false;
+                vampirButonAzalt.interactable = false;
+
+                // Setting the button interactable because now basvampir count is 0.
+                basvampirButonArttir.interactable = true;
+
+                // Setting the vampir count 0 because now basvampir count is 0 and without basvampir there can't be any vampire.
+                VampirCountText.text = "0";
+            }
         }
         else if (EventSystem.current.currentSelectedGameObject.name == "ButtonVampirAzalt")
         {
@@ -134,6 +174,9 @@ public class ButtonInteraction : MonoBehaviour
         KoyluCount = KoyluCountText.text == "sj" ? 31 : int.Parse((KoyluCountText.text));
         DoktorCount = DoktorCountText.text == "sj" ? 31 : int.Parse((DoktorCountText.text));
         GozcuCount = GozcuCountText.text == "sj" ? 31 : int.Parse((GozcuCountText.text));
-        SceneManager.LoadScene("NameScene");
+        totalOyuncuCount = BasvampirCount + VampirCount + KoyluCount + DoktorCount + GozcuCount;
+
+        if(totalOyuncuCount >= 3) // Checking player count. If its lower than 3 the game does not start. (Bunu anlatmazsam hatýrlat baþka checklerde eklenebilir.)
+            SceneManager.LoadScene("NameScene");
     }
 }
