@@ -10,6 +10,8 @@ public class NameSceneController : MonoBehaviour
     [SerializeField] private TMP_InputField textBox;
     [SerializeField] private TextMeshProUGUI playerCount;
     public static List<ParentRole> oyuncuList;
+    public static ParentRole LastInputtedPlayer;
+
 
 
     void Start()
@@ -29,7 +31,8 @@ public class NameSceneController : MonoBehaviour
             playerCountText= $"Ayni isimde birden fazla oyuncu olamaz. Lutfen {playerIndex}. oyuncunun ismini giriniz.";
         else
         {
-            oyuncuList.Add(username);
+            LastInputtedPlayer.Name = username;
+            oyuncuList.Add(LastInputtedPlayer);
             if (oyuncuList.Count == ButtonInteraction.totalOyuncuCount)
                 SceneManager.LoadScene("Test");
             playerCountText = $"Lutfen {playerIndex+1}. oyuncunun ismini giriniz.";

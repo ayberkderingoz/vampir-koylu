@@ -21,7 +21,7 @@ public class Testscript : MonoBehaviour
             GameObject button = (GameObject)Instantiate(buttonPrefab);
             button.transform.SetParent(gameobj.transform);
             button.transform.GetChild(0).GetComponent<TMP_Text>().fontSize = 50f;
-            button.transform.GetChild(0).GetComponent<TMP_Text>().text = NameSceneController.oyuncuList[i];
+            button.transform.GetChild(0).GetComponent<TMP_Text>().text = NameSceneController.oyuncuList[i].Name;
             button.GetComponent<Button>().onClick.AddListener(onClickEvent);
         }
 
