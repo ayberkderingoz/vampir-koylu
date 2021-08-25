@@ -2,18 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class NameSceneController : MonoBehaviour
 {
     [SerializeField] private TMP_InputField textBox;
     [SerializeField] private TextMeshProUGUI playerCount;
-    public static List<string> oyuncuList;
+    public static List<ParentRole> oyuncuList;
 
 
     void Start()
     {
-        oyuncuList = new List<string>();
+        oyuncuList = new List<ParentRole>();
     }
     public void onPressSkipButton()
     {
@@ -22,21 +23,22 @@ public class NameSceneController : MonoBehaviour
 
         int playerIndex = oyuncuList.Count + 1;
         
-        if (string.IsNullOrEmpty( username))
-            playerCountText = $"Oyuncu ismi bo� b�rak�lamaz. L�tfen {playerIndex}. oyuncunun ismini giriniz.";
-        else if (oyuncuList.Contains(username))
-            playerCountText= $"Ayn� isimde birden fazla oyuncu olamaz. L�tfen {playerIndex}. oyuncunun ismini giriniz.";
+        if (string.IsNullOrEmpty(username))
+            playerCountText = $"Oyuncu ismi bos birakilamaz. Lutfen {playerIndex}. oyuncunun ismini giriniz.";
+        else if (GeneralMethod.GetNames(oyuncuList).Contains(username))
+            playerCountText= $"Ayni isimde birden fazla oyuncu olamaz. Lutfen {playerIndex}. oyuncunun ismini giriniz.";
         else
         {
             oyuncuList.Add(username);
-            playerCountText = $"L�tfen {playerIndex}. oyuncunun ismini giriniz.";
+            if (oyuncuList.Count == ButtonInteraction.totalOyuncuCount)
+                SceneManager.LoadScene("Test");
+            playerCountText = $"Lutfen {playerIndex+1}. oyuncunun ismini giriniz.";
         }
         
         textBox.text = "";
         playerCount.text = playerCountText;
+
         
-        if (oyuncuList.Count == ButtonInteraction.totalOyuncuCount)
-            Debug.Log("Ab oyuncular biddi.");
 
     }
 }

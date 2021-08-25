@@ -27,6 +27,7 @@ public class ButtonInteraction : MonoBehaviour
     private Button basvampirButonArttir;
     private Button vampirButonArttir;
     private Button vampirButonAzalt;
+    private TMP_Text ErrorMessage;
 
 
     void Start()
@@ -35,10 +36,13 @@ public class ButtonInteraction : MonoBehaviour
         basvampirButonArttir = GameObject.Find("ButtonBasvampirArtir").GetComponent<Button>();
         vampirButonArttir = GameObject.Find("ButtonVampirArtir").GetComponent<Button>();
         vampirButonAzalt = GameObject.Find("ButtonVampirAzalt").GetComponent<Button>();
+        ErrorMessage = GameObject.Find("ErrorMessage").GetComponent<TMP_Text>();
+        
 
         // Setting buttons noniteractable so at the start of the game, those buttons become not clickable.
         vampirButonArttir.interactable = false;
         vampirButonAzalt.interactable = false;
+        ErrorMessage.gameObject.SetActive(false);
     }
     public void onPressIncreaseButton()
     {
@@ -176,7 +180,14 @@ public class ButtonInteraction : MonoBehaviour
         GozcuCount = GozcuCountText.text == "sj" ? 31 : int.Parse((GozcuCountText.text));
         totalOyuncuCount = BasvampirCount + VampirCount + KoyluCount + DoktorCount + GozcuCount;
 
-        if(totalOyuncuCount >= 3) // Checking player count. If its lower than 3 the game does not start. (Bunu anlatmazsam hatýrlat baþka checklerde eklenebilir.)
+        if (totalOyuncuCount >= 4) // Checking player count. If its lower than 3 the game does not start. (Bunu anlatmazsam hatï¿½rlat baï¿½ka checklerde eklenebilir.)
+        {
             SceneManager.LoadScene("NameScene");
+        }
+        else
+        {
+            ErrorMessage.gameObject.SetActive(true);
+        }
+            
     }
 }
