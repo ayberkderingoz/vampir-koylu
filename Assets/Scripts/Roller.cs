@@ -3,26 +3,30 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 using UnityEngine;
 
-public abstract class ParentRole
+public class Oyuncu
 {
     public bool IsDead { get; set; }
     public bool IsProtected { get; set; }
-    public string RoleType { get; set; }
+    
     public string Name { get; set; }
 
-    public ParentRole()
+    public ParentRole role { get; set; }
+
+    public Oyuncu()
     {
         IsDead = false;
         IsProtected = false;
-        RoleType = "bisiler na man";
     }
+}
 
+public class ParentRole
+{
+    public string RoleType { get; set; } 
     public virtual void StartNightEvent()
     {
         Debug.Log("Type atamasi yapilamadi");
     }
 }
-
 public class BasVampir : ParentRole
 {
     public BasVampir()
@@ -32,7 +36,12 @@ public class BasVampir : ParentRole
 
     public override void StartNightEvent()
     {
-        
+        Debug.Log("Basvampir" + RoleType);
+    }
+
+    public override string ToString()
+    {
+        return "Basvampir";
     }
 } 
 public class Vampir : ParentRole
@@ -44,19 +53,11 @@ public class Vampir : ParentRole
 
     public override void StartNightEvent()
     {
-        
+        Debug.Log("Vampir "+ RoleType);
     }
-} 
-public class Doktor : ParentRole
-{
-    public Doktor()
+    public override string ToString()
     {
-        RoleType = "iyi";
-    }
-    
-    public override void StartNightEvent()
-    {
-        
+        return "Vampir";
     }
 } 
 public class Koylu : ParentRole
@@ -68,9 +69,30 @@ public class Koylu : ParentRole
     
     public override void StartNightEvent()
     {
-        
+        Debug.Log("Koylu "+ RoleType);
+    }
+    public override string ToString()
+    {
+        return "Koylu";
     }
 } 
+public class Doktor : ParentRole
+{
+    public Doktor()
+    {
+        RoleType = "iyi";
+    }
+    
+    public override void StartNightEvent()
+    {
+        Debug.Log("Doktor "+ RoleType);
+    }
+    public override string ToString()
+    {
+        return "Doktor";
+    }
+} 
+
 public class Gozcu : ParentRole
 {
     public Gozcu()
@@ -80,7 +102,11 @@ public class Gozcu : ParentRole
     
     public override void StartNightEvent()
     {
-        
+        Debug.Log("Gozcu "+ RoleType);
+    }
+    public override string ToString()
+    {
+        return "Gozcu";
     }
 } 
 

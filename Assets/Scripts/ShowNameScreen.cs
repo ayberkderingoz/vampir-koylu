@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ShowNameScreen : MonoBehaviour
@@ -13,22 +14,31 @@ public class ShowNameScreen : MonoBehaviour
     void Start()
     {
         playerText = GameObject.Find("PlayerNameText").GetComponent<TMP_Text>();
+        playerText.text = $"Telefonu {NameSceneController.oyuncuList[playerIndex].Name} adli oyuncuya verin.";
         skipButton = GameObject.Find("ShowButton").GetComponent<Button>();
+        skipButton.onClick.AddListener(onPressButton);
     }
-
-
+    
     public void onPressButton()
     {
-        if (skipButton.GetComponent<TMP_Text>().text == "Goster")
+        var buttonText = skipButton.transform.GetChild(0).GetComponent<TMP_Text>();
+        if (buttonText.text == "Goster")
         {
-            skipButton.GetComponent<TMP_Text>().text = $"{NameSceneController.oyuncuList[playerIndex]} adli oyuncunun rolu ";
-            
-
-            skipButton.GetComponent<TMP_Text>().text = "Sonraki";
+            playerText.text = $"{NameSceneController.oyuncuList[playerIndex].Name} adli oyuncunun rolu {NameSceneController.oyuncuList[playerIndex].role}";
+            playerIndex++;
+            buttonText.text = "Sonraki";
         }
         else
         {
-            
+            if (NameSceneController.oyuncuList.Count == playerIndex)
+            {
+                SceneManager.LoadScene("Test");
+            }
+            else
+            {
+                playerText.text = $"Telefonu {NameSceneController.oyuncuList[playerIndex].Name} adli oyuncuya verin.";
+                buttonText.text = "Goster";
+            }
         }
             
     }

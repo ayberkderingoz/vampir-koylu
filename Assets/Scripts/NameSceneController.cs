@@ -9,19 +9,19 @@ public class NameSceneController : MonoBehaviour
 {
     [SerializeField] private TMP_InputField textBox;
     [SerializeField] private TextMeshProUGUI playerCount;
-    public static List<ParentRole> oyuncuList;
-    public static ParentRole LastInputtedPlayer;
+    public static List<Oyuncu> oyuncuList;
+    public static Oyuncu LastInputtedPlayer;
 
 
 
     void Start()
     {
-        oyuncuList = new List<ParentRole>();
+        oyuncuList = new List<Oyuncu>();
     }
     public void onPressSkipButton()
     {
         var username = textBox.text;
-        string playerCountText;
+        string playerCountText = "";
 
         int playerIndex = oyuncuList.Count + 1;
         
@@ -31,17 +31,17 @@ public class NameSceneController : MonoBehaviour
             playerCountText= $"Ayni isimde birden fazla oyuncu olamaz. Lutfen {playerIndex}. oyuncunun ismini giriniz.";
         else
         {
+            LastInputtedPlayer = new Oyuncu();
+            LastInputtedPlayer.role = GeneralMethod.GetARandomRole();
             LastInputtedPlayer.Name = username;
             oyuncuList.Add(LastInputtedPlayer);
             if (oyuncuList.Count == ButtonInteraction.totalOyuncuCount)
-                SceneManager.LoadScene("Test");
-            playerCountText = $"Lutfen {playerIndex+1}. oyuncunun ismini giriniz.";
+                SceneManager.LoadScene("RolScreen");
+            else
+                playerCountText = $"Lutfen {playerIndex+1}. oyuncunun ismini giriniz.";
         }
         
         textBox.text = "";
         playerCount.text = playerCountText;
-
-        
-
     }
 }

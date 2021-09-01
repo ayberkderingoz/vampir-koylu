@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Test.unity
     guid: 369c74f936eb140629df585e6353cff5
+  - enabled: 1
+    path: Assets/Scenes/RolScreen.unity
+    guid: 7de078f2078e7405d9d5ed015ce82629
   m_configObjects: {}

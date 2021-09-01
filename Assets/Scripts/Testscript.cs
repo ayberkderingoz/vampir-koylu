@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class Testscript : MonoBehaviour
     private GameObject gameobj;
 
     public GameObject buttonPrefab;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +33,6 @@ public class Testscript : MonoBehaviour
     // Update is called once per frame
     public void onClickEvent()
     {
-        Debug.Log("clicked");
+        Debug.Log(GeneralMethod.GetPlayerByName(EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<TMP_Text>().text).role.ToString());
     }
 }

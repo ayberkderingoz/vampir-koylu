@@ -182,6 +182,7 @@ public class ButtonInteraction : MonoBehaviour
 
         if (totalOyuncuCount >= 4) // Checking player count. If its lower than 3 the game does not start. (Bunu anlatmazsam hat�rlat ba�ka checklerde eklenebilir.)
         {
+            GeneralMethod.FillOyuncuRoles(new List<int>{BasvampirCount, VampirCount, KoyluCount, DoktorCount, GozcuCount});
             SceneManager.LoadScene("NameScene");
         }
         else
