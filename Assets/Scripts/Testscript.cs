@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Testscript : MonoBehaviour
@@ -33,6 +34,13 @@ public class Testscript : MonoBehaviour
     // Update is called once per frame
     public void onClickEvent()
     {
-        Debug.Log(GeneralMethod.GetPlayerByName(EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<TMP_Text>().text).role.ToString());
+        if (StartNight.playerIndex == NameSceneController.oyuncuList.Count)
+        {
+            StartNight.playerIndex = 0;
+            SceneManager.LoadScene("StartDayScene");
+        }
+        else
+            SceneManager.LoadScene("StartNightScene");
+        //Debug.Log(GeneralMethod.GetPlayerByName(EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<TMP_Text>().text).role.ToString());
     }
 }

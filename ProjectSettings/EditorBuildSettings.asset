@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RolScreen.unity
     guid: 7de078f2078e7405d9d5ed015ce82629
+  - enabled: 1
+    path: Assets/Scenes/StartNightScene.unity
+    guid: 98514f65722514e8ea353c619adf24a2
+  - enabled: 1
+    path: Assets/Scenes/StartDayScene.unity
+    guid: 279e00fec8fc7449b921c2cc8f86a9a8
   m_configObjects: {}

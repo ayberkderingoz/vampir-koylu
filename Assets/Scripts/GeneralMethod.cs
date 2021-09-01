@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,33 @@ using UnityEngine.UI;
 public class GeneralMethod : MonoBehaviour
 {
 
+    public static List<Oyuncu> saldirilanlar;
+    public static List<Oyuncu> korunanlar;
+    public static List<Oyuncu> olenler;
     private static List<string> rolller = new List<string> {"Basvampir","Vampir","Koylu","Doktor","Gozcu" };
     private static List<string> oyuncuRoller = new List<string>();
+
+    public static List<string> GetPlayersStatus()
+    {
+        string yasayanlarText = "Hayatta Olan Oyuncular:" + Environment.NewLine;
+        string olenlerText = "Olen Oyuncular:" + Environment.NewLine;
+        foreach (var player in NameSceneController.oyuncuList)
+        {
+            if (!player.IsDead)
+            {
+                yasayanlarText += player.Name + Environment.NewLine;
+                
+            }
+            else
+            {
+                olenlerText += player.Name + Environment.NewLine;
+            }
+            
+        }
+
+        return new List<string>{yasayanlarText,olenlerText};
+    }
+    
     public static List<string> GetNames(List<Oyuncu> players)
     {
         List<string> playerNames = new List<string>();

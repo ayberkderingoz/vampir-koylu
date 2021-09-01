@@ -32,7 +32,7 @@ public class ShowNameScreen : MonoBehaviour
         {
             if (NameSceneController.oyuncuList.Count == playerIndex)
             {
-                SceneManager.LoadScene("Test");
+                SceneManager.LoadScene("StartNightScene");
             }
             else
             {
