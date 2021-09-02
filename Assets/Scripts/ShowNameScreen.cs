@@ -24,20 +24,31 @@ public class ShowNameScreen : MonoBehaviour
         var buttonText = skipButton.transform.GetChild(0).GetComponent<TMP_Text>();
         if (buttonText.text == "Goster")
         {
+            
             playerText.text = $"{NameSceneController.oyuncuList[playerIndex].Name} adli oyuncunun rolu {NameSceneController.oyuncuList[playerIndex].role}";
             playerIndex++;
             buttonText.text = "Sonraki";
+
         }
         else
         {
             if (NameSceneController.oyuncuList.Count == playerIndex)
             {
-                SceneManager.LoadScene("StartNightScene");
+                if (buttonText.text == "Sonraki")
+                {
+                    playerText.text = "Oyunu baslatmak icin butona tiklayin";
+                    buttonText.text = "Baslat";
+                }
+                else
+                {
+                    SceneManager.LoadScene("StartDayScene");
+                }
             }
             else
             {
                 playerText.text = $"Telefonu {NameSceneController.oyuncuList[playerIndex].Name} adli oyuncuya verin.";
                 buttonText.text = "Goster";
+
             }
         }
             
