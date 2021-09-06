@@ -11,6 +11,7 @@ public class DayScene : MonoBehaviour
 
     void Start()
     {
+        GeneralMethod.HandleNightEvents();
         List<string> oyuncuStatus = GeneralMethod.GetPlayersStatus();
         GameObject.Find("YasayanlarText").GetComponent<TMP_Text>().text = oyuncuStatus[0];
         GameObject.Find("OlulerText").GetComponent<TMP_Text>().text = oyuncuStatus[1];

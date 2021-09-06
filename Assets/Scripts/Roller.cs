@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
+using TMPro;
 using UnityEngine;
 
 public class Oyuncu
 {
     public bool IsDead { get; set; }
     public bool IsProtected { get; set; }
-    
+    public int voteCount { get; set; }  
     public string Name { get; set; }
 
     public ParentRole role { get; set; }
@@ -16,15 +17,17 @@ public class Oyuncu
     {
         IsDead = false;
         IsProtected = false;
+        voteCount = 0;
     }
 }
 
 public class ParentRole
 {
     public string RoleType { get; set; } 
-    public virtual void StartNightEvent()
+    public virtual bool StartNightEvent(Oyuncu oyuncu)
     {
         Debug.Log("Type atamasi yapilamadi");
+        return true;
     }
 }
 public class BasVampir : ParentRole
@@ -34,9 +37,11 @@ public class BasVampir : ParentRole
         RoleType = "Kotu";
     }
 
-    public override void StartNightEvent()
+    public override bool StartNightEvent(Oyuncu hedef)
     {
-        Debug.Log("Basvampir" + RoleType);
+        //Debug.Log("Basvampir" + RoleType);
+        hedef.voteCount += 2;
+        return true;
     }
 
     public override string ToString()
@@ -51,9 +56,11 @@ public class Vampir : ParentRole
         RoleType = "Kotu";
     }
 
-    public override void StartNightEvent()
+    public override bool StartNightEvent(Oyuncu hedef)
     {
-        Debug.Log("Vampir "+ RoleType);
+        //Debug.Log("Vampir "+ RoleType);
+        hedef.voteCount++;
+        return true;
     }
     public override string ToString()
     {
@@ -67,9 +74,16 @@ public class Koylu : ParentRole
         RoleType = "iyi";
     }
     
-    public override void StartNightEvent()
+    public override bool StartNightEvent(Oyuncu hedef)
     {
-        Debug.Log("Koylu "+ RoleType);
+        Debug.Log(hedef.Name);
+        Debug.Log(GeneralMethod.GetPlayerByIndex(Testscript.randInt).Name);
+        if (hedef.Name == GeneralMethod.GetPlayerByIndex(Testscript.randInt).Name)
+        {
+            return true;
+        }
+        return false;
+        //Debug.Log("Koylu "+ RoleType);
     }
     public override string ToString()
     {
@@ -83,9 +97,11 @@ public class Doktor : ParentRole
         RoleType = "iyi";
     }
     
-    public override void StartNightEvent()
+    public override bool StartNightEvent(Oyuncu hedef)
     {
-        Debug.Log("Doktor "+ RoleType);
+        // Debug.Log("Doktor "+ RoleType);
+        hedef.IsProtected = true;
+        return true;
     }
     public override string ToString()
     {
@@ -100,9 +116,15 @@ public class Gozcu : ParentRole
         RoleType = "iyi";
     }
     
-    public override void StartNightEvent()
+    public override bool StartNightEvent(Oyuncu hedef)
     {
-        Debug.Log("Gozcu "+ RoleType);
+        if (hedef.role.RoleType == "iyi")
+            GameObject.Find("infoText").GetComponent<TMP_Text>().color = Color.green;
+        else
+            GameObject.Find("infoText").GetComponent<TMP_Text>().color = Color.red;
+        GameObject.Find("infoText").GetComponent<TMP_Text>().text = $"{hedef.Name} adli oyuncu {hedef.role.RoleType}";
+        //Debug.Log("Gozcu "+ RoleType);
+        return true;
     }
     public override string ToString()
     {

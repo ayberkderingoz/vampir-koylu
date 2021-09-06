@@ -18,15 +18,19 @@ public class StartNight : MonoBehaviour
         if (NameSceneController.oyuncuList[playerIndex].IsDead)
         {
             playerIndex++;
-            SceneManager.LoadScene("StartNightScene");
+            SceneManager.LoadScene(playerIndex < NameSceneController.oyuncuList.Count
+                ? "StartNightScene"
+                : "StartDayScene");
         }
-        geceText.text = $"Telefonu {NameSceneController.oyuncuList[playerIndex].Name} adli oyuncuya verin.";
-        GameObject.Find("GeceButton").GetComponent<Button>().onClick.AddListener(onPressGeceButton);
+        else
+        {
+            geceText.text = $"Telefonu {NameSceneController.oyuncuList[playerIndex].Name} adli oyuncuya verin.";
+            GameObject.Find("GeceButton").GetComponent<Button>().onClick.AddListener(onPressGeceButton);   
+        }
     }
 
     private void onPressGeceButton()
     {
-        playerIndex++;
         SceneManager.LoadScene("Test");
     }
 }

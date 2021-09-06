@@ -8,7 +8,6 @@ public class GeneralMethod : MonoBehaviour
 {
 
     public static List<Oyuncu> saldirilanlar;
-    public static List<Oyuncu> korunanlar;
     public static List<Oyuncu> olenler;
     private static List<string> rolller = new List<string> {"Basvampir","Vampir","Koylu","Doktor","Gozcu" };
     private static List<string> oyuncuRoller = new List<string>();
@@ -98,5 +97,37 @@ public class GeneralMethod : MonoBehaviour
         }
         Debug.Log("Bez getre");
         return new Oyuncu();
+    }
+
+    public static void HandleNightEvents()
+    {
+        //Choosing vampires victim.
+        Oyuncu victim = new Oyuncu();
+        victim.voteCount = -1;
+        foreach (var oyuncu in NameSceneController.oyuncuList)
+        {
+            if (victim.voteCount < oyuncu.voteCount)
+            {
+                victim = oyuncu;
+            }
+            else if (victim.voteCount == oyuncu.voteCount)
+            {
+                System.Random rnd = new System.Random();
+                var randInt = rnd.Next(2);
+                if (randInt == 1)
+                    victim = oyuncu;
+            }
+        }
+        
+        //Checking if victim protected.
+        if (!victim.IsProtected && victim.voteCount != 0)
+            victim.IsDead = true;
+        
+        //Setting isProdected and voteCount to defult
+        foreach (var oyuncu in NameSceneController.oyuncuList)
+        {
+            oyuncu.IsProtected = false;
+            oyuncu.voteCount = 0;
+        }
     }
 }
