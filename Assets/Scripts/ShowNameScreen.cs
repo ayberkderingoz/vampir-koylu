@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -26,6 +27,10 @@ public class ShowNameScreen : MonoBehaviour
         {
             
             playerText.text = $"{NameSceneController.oyuncuList[playerIndex].Name} adli oyuncunun rolu {NameSceneController.oyuncuList[playerIndex].role}";
+            if (NameSceneController.oyuncuList[playerIndex].role.ToString() == "Basvampir" || NameSceneController.oyuncuList[playerIndex].role.ToString() == "Vampir")
+            {
+                playerText.text += $"{Environment.NewLine}{Environment.NewLine}Vampirler:{Environment.NewLine}{Environment.NewLine}{GeneralMethod.GetVampiresNames()}";
+            }
             playerIndex++;
             buttonText.text = "Sonraki";
 

@@ -27,15 +27,17 @@ public class Testscript : MonoBehaviour
         skipButtonTest = GameObject.Find("SkipButtonTest").GetComponent<Button>();
         skipButtonTest.enabled = false;
         skipButtonTest.onClick.AddListener(onSkipButtonTestClickEvent);
-        
-        
         for (int i = 0; i < ButtonInteraction.totalOyuncuCount; i++)
         {
             GameObject button = (GameObject)Instantiate(buttonPrefab);
             button.transform.SetParent(gameobj.transform);
-            button.transform.GetChild(0).GetComponent<TMP_Text>().fontSize = 50f;
             button.transform.GetChild(0).GetComponent<TMP_Text>().text = NameSceneController.oyuncuList[i].Name;
             button.GetComponent<Button>().onClick.AddListener(onClickEvent);
+            if (currentOyuncu.role.ToString() == "Vampir" || currentOyuncu.role.ToString() == "Basvampir")
+            {
+                button.transform.GetChild(1).GetComponent<TMP_Text>().text =
+                    NameSceneController.oyuncuList[i].voteCount.ToString();
+            }
         }
         roleText = GameObject.Find("RoleText").GetComponent<TMP_Text>();
         ChangeRoleText();
@@ -55,17 +57,42 @@ public class Testscript : MonoBehaviour
 
     private void onSkipButtonTestClickEvent()
     {
-        if (currentOyuncu.role.StartNightEvent(lastClicked))
+        if (currentOyuncu.role.ToString() == "Gozcu")
         {
-            if (StartNight.playerIndex == NameSceneController.oyuncuList.Count-1)
+            if (skipButtonTest.transform.GetChild(0).GetComponent<TMP_Text>().text == "Sonraki")
             {
-                StartNight.playerIndex = 0;
-                SceneManager.LoadScene("StartDayScene");
+                currentOyuncu.role.StartNightEvent(lastClicked);
+                skipButtonTest.transform.GetChild(0).GetComponent<TMP_Text>().text = "Tamam";
             }
             else
             {
-                StartNight.playerIndex++;
-                SceneManager.LoadScene("StartNightScene");
+                if (StartNight.playerIndex == NameSceneController.oyuncuList.Count - 1)
+                {
+                    StartNight.playerIndex = 0;
+                    SceneManager.LoadScene("StartDayScene");
+                }
+                else
+                {
+                    StartNight.playerIndex++;
+                    SceneManager.LoadScene("StartNightScene");
+                }
+            }
+        }
+
+        else
+        {
+            if (currentOyuncu.role.StartNightEvent(lastClicked))
+            {
+                if (StartNight.playerIndex == NameSceneController.oyuncuList.Count-1)
+                {
+                    StartNight.playerIndex = 0;
+                    SceneManager.LoadScene("StartDayScene");
+                }
+                else
+                {
+                    StartNight.playerIndex++;
+                    SceneManager.LoadScene("StartNightScene");
+                }
             }
         }
     }
@@ -129,8 +156,7 @@ public class Testscript : MonoBehaviour
         }
         else if (currentOyuncu.role.ToString() == "Koylu")
         {
-            System.Random rnd = new System.Random();
-            randInt = rnd.Next(NameSceneController.oyuncuList.Count);
+            randInt = GeneralMethod.GetARandomAlivePlayersIndex();
             roleText.text = $"{NameSceneController.oyuncuList[randInt].Name} isimli oyuncuya tikla";
         }
         else if (currentOyuncu.role.ToString() == "Doktor")
@@ -142,4 +168,6 @@ public class Testscript : MonoBehaviour
             roleText.text = "Rolunu Ogrenmek istedigin kisiyi sec";
         }
     }
+
+
 }

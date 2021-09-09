@@ -2,13 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GeneralMethod : MonoBehaviour
 {
-
-    public static List<Oyuncu> saldirilanlar;
-    public static List<Oyuncu> olenler;
     private static List<string> rolller = new List<string> {"Basvampir","Vampir","Koylu","Doktor","Gozcu" };
     private static List<string> oyuncuRoller = new List<string>();
 
@@ -121,7 +119,11 @@ public class GeneralMethod : MonoBehaviour
         
         //Checking if victim protected.
         if (!victim.IsProtected && victim.voteCount != 0)
+        {
             victim.IsDead = true;
+            DayScene.geceOlenler = victim.Name + Environment.NewLine;
+        }
+            
         
         //Setting isProdected and voteCount to defult
         foreach (var oyuncu in NameSceneController.oyuncuList)
@@ -130,4 +132,79 @@ public class GeneralMethod : MonoBehaviour
             oyuncu.voteCount = 0;
         }
     }
+
+    public static int GetARandomAlivePlayersIndex()
+    {
+        int rndInt;
+        System.Random rnd = new System.Random();
+        while (true)
+        {
+            rndInt = rnd.Next(NameSceneController.oyuncuList.Count);
+            if (!NameSceneController.oyuncuList[rndInt].IsDead && rndInt != StartNight.playerIndex)
+            {
+                break;
+            }
+        }
+
+        return rndInt;
+    }
+
+    public static bool isThereWinner()
+    {
+        int aliveVampireCount = 0, aliveVillagerCount = 0;
+        //Getting alive Vampires and Villagers count
+        foreach (var oyuncu in NameSceneController.oyuncuList)
+        {
+            if (oyuncu.IsDead == false)
+            {
+                if (oyuncu.role.ToString() == "Vampir" || oyuncu.role.ToString() == "Basvampir")
+                {
+                    aliveVampireCount++;
+                }
+                else if (oyuncu.role.ToString() == "Koylu" || oyuncu.role.ToString() == "Doktor" ||
+                         oyuncu.role.ToString() == "Gozcu")
+                {
+                    aliveVillagerCount++;
+                }
+            }
+        }
+        
+        //Checking if the vampires win(is vampire count equals to villager count)
+        if (aliveVampireCount >= aliveVillagerCount)
+        {
+            WinSceneManager.victoriousTeam = "Vampirler";
+            return true;
+        }
+        //Checking if the village win(is vampire count equals to 0)
+        if (aliveVampireCount == 0)
+        {
+            WinSceneManager.victoriousTeam = "Koy";
+            return true;
+        }
+
+        return false;
+    }
+
+    public static string GetVampiresNames()
+    {
+        string Vampires = "";
+        foreach (var oyuncu in NameSceneController.oyuncuList)
+        {
+            if (oyuncu.role.ToString() == "Basvampir")
+            {
+                Vampires += oyuncu.Name + ": (Basvampir)" + Environment.NewLine;
+                break;
+            }  
+        }
+
+        foreach (var oyuncu in NameSceneController.oyuncuList)
+        {
+            if (oyuncu.role.ToString() == "Vampir")
+            {
+                Vampires += oyuncu.Name + Environment.NewLine;
+            }
+        }
+        return Vampires;
+    }
+    
 }
