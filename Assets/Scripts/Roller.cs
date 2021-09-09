@@ -10,6 +10,8 @@ public class Oyuncu
     public bool IsProtected { get; set; }
     public int voteCount { get; set; }  
     public string Name { get; set; }
+    
+    
 
     public ParentRole role { get; set; }
 
@@ -23,6 +25,8 @@ public class Oyuncu
 
 public class ParentRole
 {
+    public int selfProtect = 1;
+    public Oyuncu lastProtected;
     public string RoleType { get; set; } 
     public virtual bool StartNightEvent(Oyuncu oyuncu)
     {
@@ -96,11 +100,21 @@ public class Doktor : ParentRole
     {
         RoleType = "iyi";
     }
-    
+
+
     public override bool StartNightEvent(Oyuncu hedef)
     {
         // Debug.Log("Doktor "+ RoleType);
         hedef.IsProtected = true;
+        if (hedef == NameSceneController.oyuncuList[StartNight.playerIndex])
+        {
+            if (selfProtect >0)
+            {
+                selfProtect--;
+            }
+        }
+
+        lastProtected = hedef;
         return true;
     }
     public override string ToString()

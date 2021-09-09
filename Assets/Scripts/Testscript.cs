@@ -18,7 +18,8 @@ public class Testscript : MonoBehaviour
     private TMP_Text roleText;
     private Oyuncu lastClicked;
     private Oyuncu currentOyuncu;
-    
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -104,17 +105,48 @@ public class Testscript : MonoBehaviour
             playerButton = GameObject.Find("Content").transform.GetChild(i).GetComponent<Button>();
             if (NameSceneController.oyuncuList[StartNight.playerIndex].Name == playerButton.transform.GetChild(0).GetComponent<TMP_Text>().text)
             {
-                playerButton.gameObject.SetActive(false);
+                if (currentOyuncu.role.ToString() != "Doktor" || currentOyuncu.role.selfProtect == 0)
+                {
+                    playerButton.gameObject.SetActive(false);
+                }
             }
             
         }
     }
 
+    private void HideButtonsDoktor()
+    {
+        for (int i = 0; i < NameSceneController.oyuncuList.Count; i++)
+        {
+            if (NameSceneController.oyuncuList[i] == currentOyuncu)
+            {
+                playerButton = GameObject.Find("Content").transform.GetChild(i).GetComponent<Button>();
+                break;
+            }
+        }
+        if (currentOyuncu.role.selfProtect == 0)
+        {
+            playerButton.gameObject.SetActive(false);
+        }
+        if (currentOyuncu.role.lastProtected != null)
+        {
+            for (int i = 0; i < NameSceneController.oyuncuList.Count; i++)
+            {
+                playerButton = GameObject.Find("Content").transform.GetChild(i).GetComponent<Button>();
+                if (currentOyuncu.role.lastProtected.Name == playerButton.transform.GetChild(0).GetComponent<TMP_Text>().text)
+                {
+                    playerButton.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
     private void HidePlayers()
     {
         HidePlayerButton();
         HideVampires();
         HideDeadPlayers();
+        if(currentOyuncu.role.ToString() == "Doktor")
+            HideButtonsDoktor();
     }
 
     private void HideDeadPlayers()
@@ -148,11 +180,11 @@ public class Testscript : MonoBehaviour
     {
         if (currentOyuncu.role.ToString() == "Basvampir")
         {
-            roleText.text = "Oldurucegin kisiyi sec";
+            roleText.text = "Oldurmek icin oy vericegin kisiyi sec - 2 oy";
         }
         else if (currentOyuncu.role.ToString() == "Vampir")
         {
-            roleText.text = "Basvampire oldurmek istedigin kisiyi tanit";
+            roleText.text = "Oldurmek icin oy vericegin kisiyi sec - 1 oy";
         }
         else if (currentOyuncu.role.ToString() == "Koylu")
         {
@@ -161,7 +193,7 @@ public class Testscript : MonoBehaviour
         }
         else if (currentOyuncu.role.ToString() == "Doktor")
         {
-            roleText.text = "Korumak istedigin kisiyi sec";
+            roleText.text = "Korumak istedigin kisiyi sec"+Environment.NewLine + "Kendini sadece 1 kere koruyabilirsin, art arda 2 kere aynı kişiyi koruyamazsın";
         }
         else if (currentOyuncu.role.ToString() == "Gozcu")
         {
