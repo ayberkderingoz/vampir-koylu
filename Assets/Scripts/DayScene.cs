@@ -12,6 +12,7 @@ public class DayScene : MonoBehaviour
     void Start()
     {
         GeneralMethod.HandleNightEvents();
+        VoteScreenManager.lastClicked = null;
         if (GeneralMethod.isThereWinner())
         {
             SceneManager.LoadScene("WinScene");

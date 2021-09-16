@@ -15,7 +15,10 @@ public class StartNight : MonoBehaviour
 
     private void Start()
     {
-        if (NameSceneController.oyuncuList[playerIndex].IsDead)
+        if (NameSceneController.oyuncuList[playerIndex].IsDead && 
+            (NameSceneController.oyuncuList[playerIndex].role.ToString() != "Soytari" || 
+             (NameSceneController.oyuncuList[playerIndex].role.ToString() == "Soytari" &&
+              ((Soytari)(NameSceneController.oyuncuList[playerIndex].role)).shouldKillSomeone == false)))
         {
             playerIndex++;
             SceneManager.LoadScene(playerIndex < NameSceneController.oyuncuList.Count

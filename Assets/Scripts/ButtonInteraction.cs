@@ -16,12 +16,14 @@ public class ButtonInteraction : MonoBehaviour
     [SerializeField] private TextMeshProUGUI KoyluCountText;
     [SerializeField] private TextMeshProUGUI DoktorCountText;
     [SerializeField] private TextMeshProUGUI GozcuCountText;
+    [SerializeField] private TextMeshProUGUI SoytariCountText;
 
     public static int BasvampirCount;
     public static int VampirCount;
     public static int KoyluCount;
     public static int DoktorCount;
     public static int GozcuCount;
+    public static int SoytariCount;
     public static int totalOyuncuCount;
 
     private Button basvampirButonArttir;
@@ -78,7 +80,10 @@ public class ButtonInteraction : MonoBehaviour
         {
             increaseCount(GozcuCountText);
         }
-        
+        else if (EventSystem.current.currentSelectedGameObject.name == "ButtonSoytariArtir")
+        {
+            increaseCount(SoytariCountText);
+        }
         
     }
 
@@ -118,6 +123,10 @@ public class ButtonInteraction : MonoBehaviour
         else if (EventSystem.current.currentSelectedGameObject.name == "ButtonGozcuAzalt")
         {
             decreaseCount(GozcuCountText);
+        }
+        else if (EventSystem.current.currentSelectedGameObject.name == "ButtonSoytariAzalt")
+        {
+            decreaseCount(SoytariCountText);
         }
     }
     
@@ -178,11 +187,12 @@ public class ButtonInteraction : MonoBehaviour
         KoyluCount = KoyluCountText.text == "sj" ? 31 : int.Parse((KoyluCountText.text));
         DoktorCount = DoktorCountText.text == "sj" ? 31 : int.Parse((DoktorCountText.text));
         GozcuCount = GozcuCountText.text == "sj" ? 31 : int.Parse((GozcuCountText.text));
-        totalOyuncuCount = BasvampirCount + VampirCount + KoyluCount + DoktorCount + GozcuCount;
+        SoytariCount = SoytariCountText.text == "sj" ? 31 : int.Parse((SoytariCountText.text));
+        totalOyuncuCount = BasvampirCount + VampirCount + KoyluCount + DoktorCount + GozcuCount + SoytariCount;
 
         if (totalOyuncuCount >= 4) // Checking player count. If its lower than 3 the game does not start. (Bunu anlatmazsam hat�rlat ba�ka checklerde eklenebilir.)
         {
-            GeneralMethod.FillOyuncuRoles(new List<int>{BasvampirCount, VampirCount, KoyluCount, DoktorCount, GozcuCount});
+            GeneralMethod.FillOyuncuRoles(new List<int>{BasvampirCount, VampirCount, KoyluCount, DoktorCount, GozcuCount ,SoytariCount});
             SceneManager.LoadScene("NameScene");
         }
         else

@@ -25,8 +25,7 @@ public class Oyuncu
 
 public class ParentRole
 {
-    public int selfProtect = 1;
-    public Oyuncu lastProtected;
+
     public string RoleType { get; set; } 
     public virtual bool StartNightEvent(Oyuncu oyuncu)
     {
@@ -96,6 +95,8 @@ public class Koylu : ParentRole
 } 
 public class Doktor : ParentRole
 {
+    public int selfProtect = 1;
+    public Oyuncu lastProtected;
     public Doktor()
     {
         RoleType = "iyi";
@@ -121,8 +122,7 @@ public class Doktor : ParentRole
     {
         return "Doktor";
     }
-} 
-
+}
 public class Gozcu : ParentRole
 {
     public Gozcu()
@@ -144,5 +144,42 @@ public class Gozcu : ParentRole
     {
         return "Gozcu";
     }
-} 
+}
+
+public class Soytari : ParentRole
+{
+    public bool shouldKillSomeone;
+    public bool isHanged;
+    public Oyuncu victim;
+    public Soytari()
+    {
+        isHanged = false;
+        shouldKillSomeone = false;
+        RoleType = "Kotu";
+    }
+    public override bool StartNightEvent(Oyuncu hedef)
+    {
+        if (!NameSceneController.oyuncuList[StartNight.playerIndex].IsDead)
+        {
+            Debug.Log(hedef.Name);
+            Debug.Log(GeneralMethod.GetPlayerByIndex(Testscript.randInt).Name);
+            if (hedef.Name == GeneralMethod.GetPlayerByIndex(Testscript.randInt).Name)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        if (((Soytari) NameSceneController.oyuncuList[StartNight.playerIndex].role).shouldKillSomeone)
+        {
+            victim = hedef;
+        }
+        return true;
+        //Debug.Log("Koylu "+ RoleType);
+    }
+    public override string ToString()
+    {
+        return "Soytari";
+    }
+}
 

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class VoteScreenManager : MonoBehaviour
 {
     public GameObject buttonPrefab;
-    private Oyuncu lastClicked;
+    public static Oyuncu lastClicked;
     private GameObject gameobj;
     public Button skipButton;
     public Button cancelButton;
@@ -35,13 +35,20 @@ public class VoteScreenManager : MonoBehaviour
     {
         lastClicked = GeneralMethod.GetPlayerByName(EventSystem.current.currentSelectedGameObject.transform.GetChild(0)
             .GetComponent<TMP_Text>().text);
-        Debug.Log(lastClicked.Name);
+        //Debug.Log(lastClicked.Name);
         skipButton.enabled = true;
     }
     // Update is called once per frame
     private void onSkipButtonClickEvent()
     {
         lastClicked.IsDead = true;
+        if (lastClicked.role.ToString() == "Soytari")
+        {
+            ((Soytari) lastClicked.role).isHanged = true;
+            ((Soytari) lastClicked.role).shouldKillSomeone = true;
+            GeneralMethod.isJesterKilled = false;
+            WinSceneManager.soytariWin = true;
+        }
         StartNight.playerIndex = 0;
         if (GeneralMethod.isThereWinner())
         {

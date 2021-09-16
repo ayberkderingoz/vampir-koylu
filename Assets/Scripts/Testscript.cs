@@ -105,7 +105,7 @@ public class Testscript : MonoBehaviour
             playerButton = GameObject.Find("Content").transform.GetChild(i).GetComponent<Button>();
             if (NameSceneController.oyuncuList[StartNight.playerIndex].Name == playerButton.transform.GetChild(0).GetComponent<TMP_Text>().text)
             {
-                if (currentOyuncu.role.ToString() != "Doktor" || currentOyuncu.role.selfProtect == 0)
+                if (currentOyuncu.role.ToString() != "Doktor" || (((Doktor)currentOyuncu.role)).selfProtect == 0)
                 {
                     playerButton.gameObject.SetActive(false);
                 }
@@ -124,16 +124,16 @@ public class Testscript : MonoBehaviour
                 break;
             }
         }
-        if (currentOyuncu.role.selfProtect == 0)
+        if ((((Doktor)currentOyuncu.role)).selfProtect == 0)
         {
             playerButton.gameObject.SetActive(false);
         }
-        if (currentOyuncu.role.lastProtected != null)
+        if ((((Doktor)currentOyuncu.role)).lastProtected != null)
         {
             for (int i = 0; i < NameSceneController.oyuncuList.Count; i++)
             {
                 playerButton = GameObject.Find("Content").transform.GetChild(i).GetComponent<Button>();
-                if (currentOyuncu.role.lastProtected.Name == playerButton.transform.GetChild(0).GetComponent<TMP_Text>().text)
+                if ((((Doktor)currentOyuncu.role)).lastProtected.Name == playerButton.transform.GetChild(0).GetComponent<TMP_Text>().text)
                 {
                     playerButton.gameObject.SetActive(false);
                 }
@@ -186,10 +186,14 @@ public class Testscript : MonoBehaviour
         {
             roleText.text = "Oldurmek icin oy vericegin kisiyi sec - 1 oy";
         }
-        else if (currentOyuncu.role.ToString() == "Koylu")
+        else if (currentOyuncu.role.ToString() == "Koylu" || (currentOyuncu.role.ToString() == "Soytari" && currentOyuncu.IsDead == false))
         {
             randInt = GeneralMethod.GetARandomAlivePlayersIndex();
             roleText.text = $"{NameSceneController.oyuncuList[randInt].Name} isimli oyuncuya tikla";
+        }
+        else if (currentOyuncu.role.ToString() == "Soytari" && currentOyuncu.IsDead && (((Soytari)currentOyuncu.role).shouldKillSomeone = true))
+        {
+            roleText.text = "Öç almak istediğin kişiyi seç"; 
         }
         else if (currentOyuncu.role.ToString() == "Doktor")
         {

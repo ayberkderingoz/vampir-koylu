@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class GeneralMethod : MonoBehaviour
 {
-    private static List<string> rolller = new List<string> {"Basvampir","Vampir","Koylu","Doktor","Gozcu" };
+    private static List<string> rolller = new List<string> {"Basvampir","Vampir","Koylu","Doktor","Gozcu","Soytari" };
     private static List<string> oyuncuRoller = new List<string>();
+    public static bool isJesterKilled = false;
 
     public static List<string> GetPlayersStatus()
     {
@@ -73,6 +74,9 @@ public class GeneralMethod : MonoBehaviour
             case "Gozcu":
                 oyuncuRoller.Remove("Gozcu");
                 return new Gozcu();
+            case "Soytari":
+                oyuncuRoller.Remove("Soytari");
+                return new Soytari();
             default:
                 return new ParentRole();
         }
@@ -120,12 +124,34 @@ public class GeneralMethod : MonoBehaviour
         //Checking if victim protected.
         if (!victim.IsProtected && victim.voteCount != 0)
         {
+            if (victim.role.ToString() == "Soytari")
+            {
+                ((Soytari) victim.role).shouldKillSomeone = false;
+            }
             victim.IsDead = true;
             DayScene.geceOlenler = victim.Name + Environment.NewLine;
         }
-            
         
-        //Setting isProdected and voteCount to defult
+        //Checking if jester will kill someone.
+        if (WinSceneManager.soytariWin && !isJesterKilled)
+        {
+            foreach (var oyuncu in NameSceneController.oyuncuList)
+            {
+                if (oyuncu.role.ToString() == "Soytari" && ((Soytari) oyuncu.role).shouldKillSomeone)
+                {
+                    // Checking if the victim of jester is protected
+                    if (!((Soytari) oyuncu.role).victim.IsProtected)
+                    {
+                        ((Soytari) oyuncu.role).victim.IsDead = true;
+                        isJesterKilled = true;
+                    }
+                    ((Soytari) oyuncu.role).shouldKillSomeone = false;
+                }
+                    
+            }
+        }
+        
+        //Setting isProtected and voteCount to defult
         foreach (var oyuncu in NameSceneController.oyuncuList)
         {
             oyuncu.IsProtected = false;
@@ -162,7 +188,7 @@ public class GeneralMethod : MonoBehaviour
                     aliveVampireCount++;
                 }
                 else if (oyuncu.role.ToString() == "Koylu" || oyuncu.role.ToString() == "Doktor" ||
-                         oyuncu.role.ToString() == "Gozcu")
+                         oyuncu.role.ToString() == "Gozcu" || oyuncu.role.ToString() == "Soytari")
                 {
                     aliveVillagerCount++;
                 }
@@ -172,13 +198,13 @@ public class GeneralMethod : MonoBehaviour
         //Checking if the vampires win(is vampire count equals to villager count)
         if (aliveVampireCount >= aliveVillagerCount)
         {
-            WinSceneManager.victoriousTeam = "Vampirler";
+            WinSceneManager.victoriousTeam += "Vampirler";
             return true;
         }
         //Checking if the village win(is vampire count equals to 0)
         if (aliveVampireCount == 0)
         {
-            WinSceneManager.victoriousTeam = "Koy";
+            WinSceneManager.victoriousTeam += "Koy";
             return true;
         }
 
