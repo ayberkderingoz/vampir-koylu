@@ -155,10 +155,10 @@ RectTransform:
   m_Father: {fileID: 668136326}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 734.98}
-  m_SizeDelta: {x: 806.3453, y: 215.14}
+  m_AnchorMin: {x: 0.19044444, y: 0.8313797}
+  m_AnchorMax: {x: 0.80122226, y: 0.9226111}
+  m_AnchoredPosition: {x: 8.502441, y: -1.0080566}
+  m_SizeDelta: {x: 5.9000244, y: -0.043945312}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &353871070
 MonoBehaviour:
@@ -207,10 +207,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 128
+  m_fontSizeBase: 128
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -291,10 +291,10 @@ RectTransform:
   m_Father: {fileID: 668136326}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015259, y: -804}
-  m_SizeDelta: {x: 494.0977, y: 151.8647}
+  m_AnchorMin: {x: 0.28275928, y: 0.11638889}
+  m_AnchorMax: {x: 0.71400005, y: 0.202}
+  m_AnchoredPosition: {x: 3.5024414, y: 1}
+  m_SizeDelta: {x: 0.960022, y: -18.29602}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &528185519
 MonoBehaviour:
@@ -410,9 +410,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20364ad97373a4885ab7ede27096c093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soytariWinText: {fileID: 0}
+  soytariWinText: {fileID: 1762257040}
   colorKoy: {r: 0.7882353, g: 0.9529412, b: 0.78039217, a: 0}
   colorVampir: {r: 0.93333334, g: 0.65882355, b: 0.6509804, a: 0}
+  colorSeriKatil: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &668136323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,10 +443,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2160, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -600,7 +601,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.8584906, g: 0.44949272, b: 0.4869717, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -662,6 +663,7 @@ MonoBehaviour:
   soytariWinText: {fileID: 0}
   colorKoy: {r: 0.7882353, g: 0.9529412, b: 0.78039217, a: 0}
   colorVampir: {r: 0.93333334, g: 0.65882355, b: 0.6509804, a: 0}
+  colorSeriKatil: {r: 0.4509804, g: 0.7176471, b: 0.85882354, a: 0}
 --- !u!1 &1525984745
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,10 +696,10 @@ RectTransform:
   m_Father: {fileID: 668136326}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000030517, y: 0}
-  m_SizeDelta: {x: 583.9124, y: 1149.5278}
+  m_AnchorMin: {x: 0.21644445, y: 0.23942593}
+  m_AnchorMax: {x: 0.78062975, y: 0.760389}
+  m_AnchoredPosition: {x: 3.5, y: 0}
+  m_SizeDelta: {x: 5.0250244, y: -4.4299316}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1525984747
 MonoBehaviour:
@@ -853,7 +855,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tekrar Oyna
+  m_text: Bence Tekrar Oyna
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -962,10 +964,10 @@ RectTransform:
   m_Father: {fileID: 668136326}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00026321, y: 931.1}
-  m_SizeDelta: {x: 806.35, y: 177.0919}
+  m_AnchorMin: {x: 0.19044444, y: 0.90743446}
+  m_AnchorMax: {x: 0.80122226, y: 0.980856}
+  m_AnchoredPosition: {x: 9, y: 7.5}
+  m_SizeDelta: {x: 6.915039, y: 7.026001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1762257040
 MonoBehaviour:
@@ -1014,10 +1016,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 36
+  m_fontSize: 128
+  m_fontSizeBase: 128
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0

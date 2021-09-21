@@ -10,8 +10,6 @@ public class Oyuncu
     public bool IsProtected { get; set; }
     public int voteCount { get; set; }  
     public string Name { get; set; }
-    
-    
 
     public ParentRole role { get; set; }
 
@@ -37,7 +35,7 @@ public class BasVampir : ParentRole
 {
     public BasVampir()
     {
-        RoleType = "Kotu";
+        RoleType = "kotu";
     }
 
     public override bool StartNightEvent(Oyuncu hedef)
@@ -56,7 +54,7 @@ public class Vampir : ParentRole
 {
     public Vampir()
     {
-        RoleType = "Kotu";
+        RoleType = "kotu";
     }
 
     public override bool StartNightEvent(Oyuncu hedef)
@@ -134,8 +132,10 @@ public class Gozcu : ParentRole
     {
         if (hedef.role.RoleType == "iyi")
             GameObject.Find("infoText").GetComponent<TMP_Text>().color = Color.green;
-        else
+        else if (hedef.role.RoleType == "kotu")
             GameObject.Find("infoText").GetComponent<TMP_Text>().color = Color.red;
+        else if (hedef.role.RoleType == "cok kotu")
+            GameObject.Find("infoText").GetComponent<TMP_Text>().color = Color.magenta;
         GameObject.Find("infoText").GetComponent<TMP_Text>().text = $"{hedef.Name} adli oyuncu {hedef.role.RoleType}";
         //Debug.Log("Gozcu "+ RoleType);
         return true;
@@ -155,7 +155,7 @@ public class Soytari : ParentRole
     {
         isHanged = false;
         shouldKillSomeone = false;
-        RoleType = "Kotu";
+        RoleType = "kotu";
     }
     public override bool StartNightEvent(Oyuncu hedef)
     {
@@ -183,3 +183,21 @@ public class Soytari : ParentRole
     }
 }
 
+public class SeriKatil : ParentRole
+{
+    public Oyuncu victim;
+    public SeriKatil()
+    {
+        RoleType = "cok kotu";
+    }
+
+    public override bool StartNightEvent(Oyuncu hedef)
+    {
+        victim = hedef;
+        return true;
+    }
+    public override string ToString()
+    {
+        return "Seri Katil";
+    }
+} 

@@ -20,7 +20,7 @@ public class VoteScreenManager : MonoBehaviour
         cancelButton.onClick.AddListener(onCancelButtonClickEvent);
         for (int i = 0; i < ButtonInteraction.totalOyuncuCount; i++)
         {
-            GameObject button = (GameObject)Instantiate(buttonPrefab, gameobj.transform, true);
+            GameObject button = (GameObject)Instantiate(buttonPrefab, gameobj.transform, false);
             button.transform.GetChild(0).GetComponent<TMP_Text>().text = NameSceneController.oyuncuList[i].Name;
             button.GetComponent<Button>().onClick.AddListener(onClickEvent);
         }

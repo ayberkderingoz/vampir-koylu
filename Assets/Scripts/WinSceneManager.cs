@@ -9,16 +9,17 @@ using UnityEngine.UI;
 public class WinSceneManager : MonoBehaviour
 {
     public static string victoriousTeam = "";
-    public static bool soytariWin;
-    public TMP_Text soytariWinText;
+    public static bool soytariWin = false;
+    private TMP_Text soytariWinText;
     public Color colorKoy;
     public Color colorVampir;
+    public Color colorSeriKatil;
 
     // Start is called before the first frame update
     void Start()
     {
         soytariWinText = GameObject.Find("SoytariWinText").GetComponent<TMP_Text>();
-        soytariWinText.gameObject.SetActive(false);
+        soytariWinText.text = soytariWin ? "Soytari ve" : "";
         
         GameObject.Find("Main Camera").GetComponent<Camera>().clearFlags = CameraClearFlags.SolidColor;
         if (victoriousTeam == "Koy")
@@ -26,9 +27,9 @@ public class WinSceneManager : MonoBehaviour
         
         else if (victoriousTeam == "Vampirler")
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = colorVampir;
-
-        if (soytariWin)
-            soytariWinText.gameObject.SetActive(true);
+        
+        else if (victoriousTeam == "Seri Katil" || victoriousTeam == "Seri Katiller")
+            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = colorSeriKatil;
 
         GameObject.Find("WinnersText").GetComponent<TMP_Text>().text = getWinners();
         GameObject.Find("WinText").GetComponent<TMP_Text>().text = victoriousTeam + " Kazandi";
@@ -55,6 +56,16 @@ public class WinSceneManager : MonoBehaviour
             foreach (var oyuncu in NameSceneController.oyuncuList)
             {
                 if (oyuncu.role.ToString() == "Vampir" || oyuncu.role.ToString() == "Basvampir")
+                {
+                    winners += oyuncu.Name + Environment.NewLine;
+                }
+            }
+        }
+        else if (victoriousTeam == "Seri Katil" || victoriousTeam == "Seri Katiller")
+        {
+            foreach (var oyuncu in NameSceneController.oyuncuList)
+            {
+                if (oyuncu.role.ToString() == "Seri Katil" && !oyuncu.IsDead)
                 {
                     winners += oyuncu.Name + Environment.NewLine;
                 }

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class GeneralMethod : MonoBehaviour
 {
-    private static List<string> rolller = new List<string> {"Basvampir","Vampir","Koylu","Doktor","Gozcu","Soytari" };
+    private static List<string> rolller = new List<string> {"Basvampir","Vampir","Koylu","Doktor","Gozcu","Soytari", "SeriKatil" };
     private static List<string> oyuncuRoller = new List<string>();
     public static bool isJesterKilled = false;
 
@@ -77,6 +77,9 @@ public class GeneralMethod : MonoBehaviour
             case "Soytari":
                 oyuncuRoller.Remove("Soytari");
                 return new Soytari();
+            case "SeriKatil":
+                oyuncuRoller.Remove("SeriKatil");
+                return new SeriKatil();
             default:
                 return new ParentRole();
         }
@@ -103,33 +106,56 @@ public class GeneralMethod : MonoBehaviour
 
     public static void HandleNightEvents()
     {
-        //Choosing vampires victim.
-        Oyuncu victim = new Oyuncu();
-        victim.voteCount = -1;
+        //Choosing vampires and seriaş killers victims.
+        Oyuncu vampiresVictim = new Oyuncu();
+        List<Oyuncu> SerialKillersVictims = new List<Oyuncu>();
+        vampiresVictim.voteCount = -1;
         foreach (var oyuncu in NameSceneController.oyuncuList)
         {
-            if (victim.voteCount < oyuncu.voteCount)
+            if (oyuncu.role.ToString() == "Seri Katil" && ((SeriKatil) oyuncu.role).victim != null)
             {
-                victim = oyuncu;
+                if (!SerialKillersVictims.Contains(((SeriKatil) oyuncu.role).victim))
+                {
+                    SerialKillersVictims.Add(((SeriKatil)oyuncu.role).victim);
+                }
+
+                ((SeriKatil) oyuncu.role).victim = null;
             }
-            else if (victim.voteCount == oyuncu.voteCount)
+            if (vampiresVictim.voteCount < oyuncu.voteCount)
+            {
+                vampiresVictim = oyuncu;
+            }
+            else if (vampiresVictim.voteCount == oyuncu.voteCount)
             {
                 System.Random rnd = new System.Random();
                 var randInt = rnd.Next(2);
                 if (randInt == 1)
-                    victim = oyuncu;
+                    vampiresVictim = oyuncu;
             }
         }
-        
-        //Checking if victim protected.
-        if (!victim.IsProtected && victim.voteCount != 0)
+
+        foreach (var victim in SerialKillersVictims)
         {
-            if (victim.role.ToString() == "Soytari")
+            
+            if (!victim.IsProtected)
             {
-                ((Soytari) victim.role).shouldKillSomeone = false;
+                if (victim.role.ToString() == "Soytari")
+                {
+                    ((Soytari) victim.role).shouldKillSomeone = false;
+                }
+                victim.IsDead = true;
+                DayScene.geceOlenler = victim.Name + Environment.NewLine;
             }
-            victim.IsDead = true;
-            DayScene.geceOlenler = victim.Name + Environment.NewLine;
+        }
+        //Checking if victim protected.
+        if (!vampiresVictim.IsProtected && vampiresVictim.voteCount != 0 && vampiresVictim.role.ToString() != "Seri Katil")
+        {
+            if (vampiresVictim.role.ToString() == "Soytari")
+            {
+                ((Soytari) vampiresVictim.role).shouldKillSomeone = false;
+            }
+            vampiresVictim.IsDead = true;
+            DayScene.geceOlenler = vampiresVictim.Name + Environment.NewLine;
         }
         
         //Checking if jester will kill someone.
@@ -150,6 +176,7 @@ public class GeneralMethod : MonoBehaviour
                     
             }
         }
+        
         
         //Setting isProtected and voteCount to defult
         foreach (var oyuncu in NameSceneController.oyuncuList)
@@ -177,7 +204,7 @@ public class GeneralMethod : MonoBehaviour
 
     public static bool isThereWinner()
     {
-        int aliveVampireCount = 0, aliveVillagerCount = 0;
+        int aliveVampireCount = 0, aliveVillagerCount = 0,aliveSerialKillerCount = 0;
         //Getting alive Vampires and Villagers count
         foreach (var oyuncu in NameSceneController.oyuncuList)
         {
@@ -192,19 +219,35 @@ public class GeneralMethod : MonoBehaviour
                 {
                     aliveVillagerCount++;
                 }
+                else if (oyuncu.role.ToString() == "Seri Katil")
+                {
+                    aliveSerialKillerCount++;
+                }
             }
         }
         
         //Checking if the vampires win(is vampire count equals to villager count)
-        if (aliveVampireCount >= aliveVillagerCount)
+        if (aliveVampireCount >= aliveVillagerCount && aliveSerialKillerCount == 0)
         {
             WinSceneManager.victoriousTeam += "Vampirler";
             return true;
         }
         //Checking if the village win(is vampire count equals to 0)
-        if (aliveVampireCount == 0)
+        if (aliveVampireCount == 0 && aliveSerialKillerCount == 0)
         {
             WinSceneManager.victoriousTeam += "Koy";
+            return true;
+        }
+
+        if (aliveSerialKillerCount == 1 && aliveVampireCount + aliveVillagerCount <= 1)
+        {
+            WinSceneManager.victoriousTeam += "Seri Katil";
+            return true;
+        }
+
+        if (aliveSerialKillerCount == 2 && aliveVampireCount + aliveVillagerCount == 0)
+        {
+            WinSceneManager.victoriousTeam += "Seri Katiller";
             return true;
         }
 

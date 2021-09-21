@@ -30,8 +30,7 @@ public class Testscript : MonoBehaviour
         skipButtonTest.onClick.AddListener(onSkipButtonTestClickEvent);
         for (int i = 0; i < ButtonInteraction.totalOyuncuCount; i++)
         {
-            GameObject button = (GameObject)Instantiate(buttonPrefab);
-            button.transform.SetParent(gameobj.transform);
+            GameObject button = (GameObject)Instantiate(buttonPrefab, gameobj.transform,false);
             button.transform.GetChild(0).GetComponent<TMP_Text>().text = NameSceneController.oyuncuList[i].Name;
             button.GetComponent<Button>().onClick.AddListener(onClickEvent);
             if (currentOyuncu.role.ToString() == "Vampir" || currentOyuncu.role.ToString() == "Basvampir")
@@ -41,8 +40,11 @@ public class Testscript : MonoBehaviour
             }
         }
         roleText = GameObject.Find("RoleText").GetComponent<TMP_Text>();
+        
         ChangeRoleText();
+        
         HidePlayers();
+        
         GameObject.Find("ScrollArea").GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
     }
 
@@ -97,7 +99,6 @@ public class Testscript : MonoBehaviour
             }
         }
     }
-
     private void HidePlayerButton()
     {
         for (int i = 0; i < NameSceneController.oyuncuList.Count; i++)
@@ -113,7 +114,6 @@ public class Testscript : MonoBehaviour
             
         }
     }
-
     private void HideButtonsDoktor()
     {
         for (int i = 0; i < NameSceneController.oyuncuList.Count; i++)
@@ -148,7 +148,6 @@ public class Testscript : MonoBehaviour
         if(currentOyuncu.role.ToString() == "Doktor")
             HideButtonsDoktor();
     }
-
     private void HideDeadPlayers()
     {
         for (int i = 0; i < NameSceneController.oyuncuList.Count; i++)
@@ -175,7 +174,6 @@ public class Testscript : MonoBehaviour
             }
         }
     }
-
     private void ChangeRoleText()
     {
         if (currentOyuncu.role.ToString() == "Basvampir")
@@ -201,7 +199,11 @@ public class Testscript : MonoBehaviour
         }
         else if (currentOyuncu.role.ToString() == "Gozcu")
         {
-            roleText.text = "Rolunu Ogrenmek istedigin kisiyi sec";
+            roleText.text = "Rolunu ogrenmek istedigin kisiyi sec";
+        }
+        else if (currentOyuncu.role.ToString() == "Seri Katil")
+        {
+            roleText.text = "Katletmek istediğin oyuncuyu seç";
         }
     }
 
