@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ButtonInteraction : MonoBehaviour
@@ -31,7 +27,7 @@ public class ButtonInteraction : MonoBehaviour
     private Button basvampirButonArttir;
     private Button vampirButonArttir;
     private Button vampirButonAzalt;
-    private TMP_Text ErrorMessage;
+    private GameObject ErrorMessage;
 
 
     void Start()
@@ -40,7 +36,7 @@ public class ButtonInteraction : MonoBehaviour
         basvampirButonArttir = GameObject.Find("ButtonBasvampirArtir").GetComponent<Button>();
         vampirButonArttir = GameObject.Find("ButtonVampirArtir").GetComponent<Button>();
         vampirButonAzalt = GameObject.Find("ButtonVampirAzalt").GetComponent<Button>();
-        ErrorMessage = GameObject.Find("ErrorMessage").GetComponent<TMP_Text>();
+        ErrorMessage = GameObject.Find("Error");
 
         // Setting buttons noniteractable so at the start of the game, those buttons become not clickable.
         vampirButonArttir.interactable = false;
@@ -207,8 +203,13 @@ public class ButtonInteraction : MonoBehaviour
         }
         else
         {
-            ErrorMessage.gameObject.SetActive(true);
+            ErrorMessage.SetActive(true);
         }
             
+    }
+
+    public void onPressCloseButton()
+    {
+        ErrorMessage.SetActive(false);
     }
 }

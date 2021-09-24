@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -191,11 +188,11 @@ public class Testscript : MonoBehaviour
         }
         else if (currentOyuncu.role.ToString() == "Soytari" && currentOyuncu.IsDead && (((Soytari)currentOyuncu.role).shouldKillSomeone = true))
         {
-            roleText.text = "Öç almak istediğin kişiyi seç"; 
+            roleText.text = "Oc almak istedigin kisiyi sec"; 
         }
         else if (currentOyuncu.role.ToString() == "Doktor")
         {
-            roleText.text = "Korumak istedigin kisiyi sec"+Environment.NewLine + "Kendini sadece 1 kere koruyabilirsin, art arda 2 kere aynı kişiyi koruyamazsın";
+            roleText.text = "Korumak istedigin kisiyi sec"+Environment.NewLine + "Kendini sadece 1 kere koruyabilirsin, art arda 2 kere aynı kisiyi koruyamazsin";
         }
         else if (currentOyuncu.role.ToString() == "Gozcu")
         {
@@ -203,7 +200,7 @@ public class Testscript : MonoBehaviour
         }
         else if (currentOyuncu.role.ToString() == "Seri Katil")
         {
-            roleText.text = "Katletmek istediğin oyuncuyu seç";
+            roleText.text = "Katletmek istedigin oyuncuyu sec";
         }
     }
 

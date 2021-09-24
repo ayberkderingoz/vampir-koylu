@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,13 +21,22 @@ public class WinSceneManager : MonoBehaviour
         
         GameObject.Find("Main Camera").GetComponent<Camera>().clearFlags = CameraClearFlags.SolidColor;
         if (victoriousTeam == "Koy")
+        {
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = colorKoy;
-        
+            GameObject.Find("WinText").GetComponent<TMP_Text>().color = Color.green;
+        }
+
         else if (victoriousTeam == "Vampirler")
+        {
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = colorVampir;
-        
+            GameObject.Find("WinText").GetComponent<TMP_Text>().color = Color.red;
+        }
+
         else if (victoriousTeam == "Seri Katil" || victoriousTeam == "Seri Katiller")
+        {
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = colorSeriKatil;
+            GameObject.Find("WinText").GetComponent<TMP_Text>().color = Color.magenta;
+        }
 
         GameObject.Find("WinnersText").GetComponent<TMP_Text>().text = getWinners();
         GameObject.Find("WinText").GetComponent<TMP_Text>().text = victoriousTeam + " Kazandi";
