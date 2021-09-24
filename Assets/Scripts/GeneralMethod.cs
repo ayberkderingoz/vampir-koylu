@@ -167,6 +167,7 @@ public class GeneralMethod : MonoBehaviour
                     {
                         ((Soytari) oyuncu.role).victim.IsDead = true;
                         isJesterKilled = true;
+                        DayScene.geceOlenler = ((Soytari) oyuncu.role).victim.Name + Environment.NewLine;
                     }
                     ((Soytari) oyuncu.role).shouldKillSomeone = false;
                 }
